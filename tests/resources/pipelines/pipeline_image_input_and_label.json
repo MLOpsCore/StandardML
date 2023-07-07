@@ -1,0 +1,110 @@
+[
+  [
+    {
+      "msg": "Load image",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_read_image",
+      "args": {}
+    },
+    {
+      "msg": "Convert into square images",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_squarer",
+      "args": {
+        "size": 128
+      }
+    },
+    {
+      "msg": "Convert to float16",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_change_dtype",
+      "args": {
+        "dtype": "float16"
+      }
+    },
+    {
+      "msg": "Sum 1 to all values",
+      "module": "function",
+      "funct": "lambda _x: _x + 1",
+      "args": {}
+    },
+    {
+      "msg": "Reshape",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_reshape",
+      "args": {
+        "shape": [
+          128,
+          128,
+          3
+        ]
+      }
+    },
+    {
+      "msg": "Expand dims",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_expand_dims",
+      "args": {
+        "axis": 0
+      }
+    }
+  ],
+  [
+    {
+      "msg": "Load image",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_read_image",
+      "args": {}
+    },
+    {
+      "msg": "Convert into square images",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_squarer",
+      "args": {
+        "size": 128
+      }
+    },
+    {
+      "msg": "Turn to grayscale",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_change_mode",
+      "args": {
+        "mode": "gray"
+      }
+    },
+    {
+      "msg": "Convert to float16",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_change_dtype",
+      "args": {
+        "dtype": "float16"
+      }
+    },
+    {
+      "msg": "Sum 1 to all values",
+      "module": "function",
+      "funct": "lambda _x: _x + 1",
+      "args": {}
+    },
+    {
+      "msg": "Reshape",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_reshape",
+      "args": {
+        "shape": [
+          128,
+          128,
+          1
+        ]
+      }
+    },
+    {
+      "msg": "Expand dims",
+      "module": "image",
+      "funct": "ImageProcessingLib.apply_expand_dims",
+      "args": {
+        "axis": 0
+      }
+    }
+  ]
+]

@@ -1,0 +1,92 @@
+{
+  "version": "1.0",
+  "task": "train",
+  "metadata": {
+      "execution": "local",
+      "workspace": "workspace",
+      "integrations": [
+          {
+              "type": "mlflow",
+              "config": {
+                  "env": "aws",
+                  "framework": "sklearn",
+                  "experiment_name": "experiment-test",
+                  "tracking_uri": "http://localhost:5000",
+                  "endpoint_url": "http://localhost:9000",
+                  "access_key": "43kT4tfdbDIlyFZh",
+                  "secret_key": "TTv0eZoTttsOSPb81hMz6B3HH7y5Xj2d",
+                  "details": {
+                      "name": "test",
+                      "description": "test",
+                      "tags": {
+                        "tag1": "value1",
+                        "tag2": "value2"
+                      }
+                  }
+              }
+          }
+      ]
+  },
+  "problem": {
+      "name": "regression",
+      "category": "binary",
+      "framework": "sklearn"
+  },
+  "data": {
+      "dataset": {
+          "type": "tabtab",
+          "config": {
+              "type": "npz",
+              "path_input": "resources/datasets/regression/diabetes.npz",
+              "name_feat": "X",
+              "name_labels": "y",
+              "rnd_seed": 42,
+              "task": "train",
+              "val_split": 0,
+              "test_split": 0
+          }
+      },
+      "processing": {
+          "pre": {
+              "inputs": [
+                  {
+                      "msg": "Apply MinMax Scaling to the data",
+                      "module": "numeric",
+                      "funct": "NumericProcessingLib.apply_minmax_scaling",
+                      "args": {}
+                  }
+              ],
+              "labels": [
+                  {
+                      "msg": "Apply Standard Scaling to the features",
+                      "module": "numeric",
+                      "funct": "NumericProcessingLib.apply_standard_scaling",
+                      "args": {}
+                  }
+              ]
+          },
+          "post": {
+              "output": []
+          }
+      },
+      "config": {}
+  },
+  "model": {
+      "arch": {
+          "name": "regression",
+          "config": {
+            "model": "LinearRegression",
+            "params": {}
+          }
+      },
+      "procedure": {
+          "name": "train",
+          "params": {},
+          "metrics": [
+              "mean_squared_error",
+              "mean_absolute_error",
+              "r2_score"
+          ]
+      }
+  }
+}

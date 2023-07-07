@@ -1,0 +1,16 @@
+[
+  {
+    "module": "function",
+    "msg": "step_1",
+    "funct": "lambda x: x + 1",
+    "args": {}
+  },
+  {
+    "module": "function",
+    "msg": "step_1",
+    "funct": "lambda x, y: x * y",
+    "args": {
+      "y": 100
+    }
+  }
+]

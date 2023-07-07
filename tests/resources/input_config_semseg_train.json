@@ -1,0 +1,224 @@
+{
+  "version": "1.0",
+  "task": "train",
+  "metadata": {
+    "execution": "local",
+    "workspace": "workspace",
+    "integrations": [
+      {
+        "type": "mlflow",
+        "config": {
+          "env": "aws",
+          "framework": "tensorflow",
+          "experiment_name": "experiment-test",
+          "tracking_uri": "http://localhost:5000",
+          "endpoint_url": "http://localhost:9000",
+          "access_key": "43kT4tfdbDIlyFZh",
+          "secret_key": "TTv0eZoTttsOSPb81hMz6B3HH7y5Xj2d",
+          "details": {
+            "name": "test",
+            "description": "test",
+            "tags": {
+              "tag1": "value1",
+              "tag2": "value2"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "problem": {
+    "name": "semseg",
+    "category": "binary",
+    "framework": "tensorflow"
+  },
+  "data": {
+    "dataset": {
+      "type": "imgimg",
+      "config": {
+        "type": "default",
+        "path_inputs": "resources/datasets/imgimg/default/input",
+        "path_labels": "resources/datasets/imgimg/default/labels",
+        "rnd_seed": 42,
+        "task": "train",
+        "val_split": 0.2,
+        "test_split": 0
+      }
+    },
+    "processing": {
+      "pre": {
+        "inputs": [
+          {
+            "msg": "Load image",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_read_image",
+            "args": {}
+          },
+          {
+            "msg": "Convert into square images",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_squarer",
+            "args": {
+              "size": 128
+            }
+          },
+          {
+            "msg": "Convert to float16",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_change_dtype",
+            "args": {
+              "dtype": "float16"
+            }
+          },
+          {
+            "msg": "Sum 1 to all values",
+            "module": "function",
+            "funct": "lambda _x: _x + 1",
+            "args": {}
+          },
+          {
+            "msg": "Reshape",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_reshape",
+            "args": {
+              "shape": [
+                128,
+                128,
+                3
+              ]
+            }
+          },
+          {
+            "msg": "Expand dims",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_expand_dims",
+            "args": {
+              "axis": 0
+            }
+          }
+        ],
+        "labels": [
+          {
+            "msg": "Load image",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_read_image",
+            "args": {}
+          },
+          {
+            "msg": "Convert into square images",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_squarer",
+            "args": {
+              "size": 128
+            }
+          },
+          {
+            "msg": "Turn to grayscale",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_change_mode",
+            "args": {
+              "mode": "gray"
+            }
+          },
+          {
+            "msg": "Convert to float16",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_change_dtype",
+            "args": {
+              "dtype": "float16"
+            }
+          },
+          {
+            "msg": "Normalize between 0 and 1",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_channel_normalize",
+            "args": {"mode":  "gray"}
+          },
+          {
+            "msg": "Reshape",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_reshape",
+            "args": {
+              "shape": [
+                128,
+                128,
+                1
+              ]
+            }
+          },
+          {
+            "msg": "Expand dims",
+            "module": "image",
+            "funct": "ImageProcessingLib.apply_expand_dims",
+            "args": {
+              "axis": 0
+            }
+          }
+        ]
+      },
+      "post": {
+        "output": []
+      }
+    },
+    "config": {
+      "precision": "float16",
+      "inputs_shape": [
+        128,
+        128,
+        3
+      ],
+      "labels_shape": [
+        128,
+        128,
+        1
+      ]
+    }
+  },
+  "model": {
+    "arch": {
+      "name": "unet",
+      "config": {
+        "size": 128,
+        "num_filters": [
+          2,
+          4,
+          8
+        ],
+        "name": "unet",
+        "in_channels": 3
+      }
+    },
+    "procedure": {
+      "name": "train",
+      "params": {
+        "epochs": 1,
+        "batch_size": 1,
+        "optimizer": {
+          "name": "Adam",
+          "config": {
+            "learning_rate": 0.001
+          }
+        },
+        "loss": {
+          "name": "BinaryCrossentropy",
+          "config": {}
+        }
+      },
+      "metrics": [
+        {
+          "name": "BinaryCrossentropy",
+          "config": {}
+        },
+        "Recall",
+        "Precision",
+        {
+          "name": "MeanIoU",
+          "config": {
+            "name": "mean_iou",
+            "num_classes": 2
+          }
+        }
+      ]
+    }
+  }
+}

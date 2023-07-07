@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "standardml"
+version = "0.0.1"
+authors = [
+  { name="Jose Zamora", email="josezambat@gmail.com" },
+]
+description = "StandardML is a Python library designed to standardize the process of training and evaluating machine learning models."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pydantic==1.10.0",
+    "tensorflow==2.13.0",
+    "opencv-python==4.7.0.68",
+    "numpy==1.24.2",
+    "matplotlib==3.7.0",
+    "mlflow==2.1.1"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest==7.4.0",
+    "pytest-cov==4.1.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"] # ["."] by default
+include = ["*"]  # ["*"] by default
+exclude = []  # empty by default
+# namespaces = false  # true by default

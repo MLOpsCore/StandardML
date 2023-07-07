@@ -1,0 +1,276 @@
+---
+title: "Diagram of Abstract Clases and Interfaces"
+---
+classDiagram
+
+    direction LR
+
+    class AbstractFactory
+    <<Interface>> AbstractFactory
+    AbstractFactory: create(*args, **kwargs)
+
+    class DatasetParserConfig
+    <<Abstract>> DatasetParserConfig
+
+    class DatasetParser
+    <<interface>> DatasetParser
+    DatasetParser:  Tuple[Iterable, int] get_train_dataset(int batch_size)
+    DatasetParser:  Tuple[Iterable, int] get_valid_dataset(int batch_size)
+    DatasetParser:  Tuple[Iterable, int] get_test_dataset(int batch_size)
+
+    %% MAPPERS
+
+    class Mapper
+    <<Interface>> Mapper
+    Mapper: map()
+
+    class LossMapper
+    <<Abstract>> LossMapper
+    class MetricsMapper
+    <<Abstract>> MetricsMapper
+    class OptimizerMapper
+    <<Abstract>> OptimizerMapper
+
+    class TFLossMapper
+    class TFMetricsMapper
+    class TFOptimizerMapper
+
+    class SKLearnMetricsMapper
+
+    %% Mapper
+    Mapper <|-- LossMapper: extends
+    Mapper <|-- MetricsMapper: extends
+    Mapper <|-- OptimizerMapper: extends
+
+    LossMapper <|-- TFLossMapper: implements
+    MetricsMapper <|-- TFMetricsMapper: implements
+    OptimizerMapper <|-- TFOptimizerMapper: implements
+
+    MetricsMapper <|-- SKLearnMetricsMapper: implements
+
+    %% INDEXERS
+
+    class IndexPack
+    class IndexedData
+    class IndexerConfig
+    <<Abstract>> IndexerConfig
+    class ImgImgIndexerConfig
+    class ImgTabIndexerConfig
+    class ImgLblIndexerConfig
+    class TabTabIndexerConfig
+
+    class Indexer
+    <<Interface>> Indexer
+    Indexer: IndexData index()
+    class ImgImgIndexer
+    class ImgTabIndexer
+    class ImgLblIndexer
+    class TabTabIndexer
+
+    class IndexerFactory
+    IndexerFactory: Indexer create(dict config)
+
+    %% Indexer Composition
+    Indexer <|-- ImgImgIndexer : implements
+    Indexer <|-- ImgTabIndexer : implements
+    Indexer <|-- ImgLblIndexer : implements
+    Indexer <|-- TabTabIndexer : implements
+
+    Indexer -- IndexedData
+
+    IndexerConfig <|-- ImgImgIndexerConfig : implements
+    IndexerConfig <|-- ImgTabIndexerConfig : implements
+    IndexerConfig <|-- ImgLblIndexerConfig : implements
+    IndexerConfig <|-- TabTabIndexerConfig : implements
+
+    Indexer <.. IndexerConfig
+
+    ImgImgIndexer <.. ImgImgIndexerConfig
+    ImgTabIndexer <.. ImgTabIndexerConfig
+    ImgLblIndexer <.. ImgLblIndexerConfig
+    TabTabIndexer <.. TabTabIndexerConfig
+
+    IndexedData *-- IndexPack
+
+    IndexerFactory -- Indexer
+
+    %% PIPELINES
+    class PipelineTask
+    class Pipeline
+    Pipeline: add(PipelineTask task, bool condition)
+    Pipeline: extend(List~PipelineTask~ task)
+    Pipeline: Any execute(Any value)
+
+    class PipelineBuilder
+    PipelineBuilder: Pipeline build(dict config)
+
+    Pipeline *-- PipelineTask
+    PipelineBuilder -- Pipeline
+
+    %% Model y Component
+    class Component
+    <<Interface>> Component
+    Component: FitOutputs fit(**kwargs)
+    Component: EvalOutput evaluate(**kwargs)
+
+    class Model
+    <<Interface>> Model
+    class ModelConfig
+    <<Abstract>> ModelConfig
+    class TFModel
+    <<Abstract>> TFModel
+    class Sequential
+    class SequentialConfig
+    class Unet
+    class UnetConfig
+    class DeepLabV3Plus
+    class DeepLabV3PlusConfig
+    class SKLearnModel
+    <<Abstract>> SKLearnModel
+    class SKLearnRegressionModel
+    class SKLearnConfig
+
+    ModelConfig <|-- UnetConfig : implements
+    ModelConfig <|-- SequentialConfig: implements
+    ModelConfig <|-- DeepLabV3PlusConfig: implements
+    ModelConfig <|-- SKLearnConfig: implements
+
+    Component <|-- Model: extends
+    Model <|-- TFModel: extends
+    Model <|-- SKLearnModel: extends
+    TFModel <|-- Sequential
+    TFModel <|-- Unet
+    TFModel <|-- DeepLabV3Plus
+    SKLearnModel <|-- SKLearnRegressionModel
+    TFModelFactory -- TFModel
+    SKLearnModelFactory -- SKLearnModel
+
+    Sequential <.. SequentialConfig
+    Unet <.. UnetConfig
+    DeepLabV3Plus <.. DeepLabV3PlusConfig
+    SKLearnRegressionModel <.. SKLearnConfig
+
+    Model <.. ModelConfig
+
+    class ModelFactory
+    <<Interface>> ModelFactory
+    ModelFactory: Model create(dict config)
+
+    class TFModelFactory
+    class SKLearnModelFactory
+
+    ModelFactory <|-- TFModelFactory : implements
+    ModelFactory <|-- SKLearnModelFactory : implements
+    ModelFactory -- Model
+
+    %% ML FRAMEWORK
+    class MLFramework
+    <<Abstract>> MLFramework
+    MLFramework: ModelFactory arch_factory(**kwargs)
+    MLFramework: DatasetParser data_parser(**kwargs)
+    MLFramework: DatasetParserConfig data_parser_config(**kwargs)
+    MLFramework: LossMapper loss_mapper(**kwargs)
+    MLFramework: MetricsMapper metrics_mapper(**kwargs)
+    MLFramework: OptimizerMapper optimizer_mapper(**kwargs)
+
+    class TFFramework
+    TFFramework: TFModel arch_factory(**kwargs)
+    TFFramework: TFDatasetParser data_parser(**kwargs)
+    TFFramework: TFDatasetParserConfig data_parser_config(**kwargs)
+    TFFramework: TFLossMapper loss_mapper(**kwargs)
+    TFFramework: TFMetricsMapper metrics_mapper(**kwargs)
+    TFFramework: TFOptimizerMapper optimizer_mapper(**kwargs)
+
+    class SKLearnFramework
+    TFFramework: SKLearnModel arch_factory(**kwargs)
+    TFFramework: SKLearnDatasetParser data_parser(**kwargs)
+    TFFramework: SKLearnMetricsMapper metrics_mapper(**kwargs)
+
+    class MLFrameworkFactory
+    MLFrameworkFactory: MLFramework create()
+
+    MLFrameworkFactory -- MLFramework
+    MLFramework <|-- TFFramework : implements
+
+    MLFramework -- ModelFactory
+    MLFramework -- DatasetParser
+    MLFramework -- DatasetParserConfig
+    MLFramework -- LossMapper
+    MLFramework -- MetricsMapper
+    MLFramework -- OptimizerMapper
+
+    TFFramework -- TFModelFactory
+    TFFramework -- TFDatasetParser
+    TFFramework -- TFDatasetParserConfig
+    TFFramework -- TFLossMapper
+    TFFramework -- TFMetricsMapper
+    TFFramework -- TFOptimizerMapper
+
+    SKLearnFramework -- SKLearnModelFactory
+    SKLearnFramework -- SKLearnDatasetParser
+    SKLearnFramework -- SKLearnMetricsMapper
+
+    TFModelFactory -- TFModel
+    SKLearnModelFactory -- SKLearnModel
+
+
+    %% Integration
+    class IntegrationFactory
+    IntegrationFactory: Component create(Component component, dict config)
+
+    class MLFlowIntegration
+    class MLFlowConfig
+
+    MLFlowIntegration <|-- Component: implements
+    MLFlowIntegration *-- Component
+    MLFlowIntegration *-- MLFlowConfig
+    IntegrationFactory -- MLFlowIntegration
+
+    class Executor
+    Executor *-- Component
+    Executor: __call__(*args, **kwargs)
+
+    class IntegrationInputConfig
+
+    class ProblemInputConfig
+
+    class MetadataInputConfig
+    MetadataInputConfig *-- IntegrationInputConfig
+
+    class DatasetInputConfig
+
+    class PreProcessingInputConfig
+    class PostProcessingInputConfig
+
+    class ProcessingInputConfig
+    ProcessingInputConfig *-- PreProcessingInputConfig
+    ProcessingInputConfig *-- PostProcessingInputConfig
+
+    class DataInputConfig
+    DataInputConfig *-- DatasetInputConfig
+    DataInputConfig *-- ProcessingInputConfig
+
+    class ArchInputConfig
+    class ProcedureInputConfig
+    class ModelInputConfig
+    ModelInputConfig *-- ArchInputConfig
+    ModelInputConfig *-- ProcedureInputConfig
+
+
+    class InputConfig
+    InputConfig *-- MetadataInputConfig
+    InputConfig *-- ProblemInputConfig
+    InputConfig *-- DataInputConfig
+    InputConfig *-- ModelInputConfig
+
+    class WorkerApp
+    WorkerApp <|-- InputConfig
+    WorkerApp -- Executor
+    WorkerApp: run()
+
+    %% AbstractFactory sons
+    AbstractFactory <|-- ModelFactory: implements
+    AbstractFactory <|-- IndexerFactory: implements
+    AbstractFactory <|-- MLFrameworkFactory: implements
+    AbstractFactory <|-- IntegrationFactory: implements
+
