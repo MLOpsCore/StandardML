@@ -7,3 +7,7 @@
 .vscode
 .idea
 htmlcov
+.coverage
+coverage.xml
+.tox
+build

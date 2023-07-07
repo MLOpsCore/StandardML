@@ -5,9 +5,9 @@ from standardml.ml.tensorflow.dataparser import TFDatasetParserConfig, TFDataset
 from standardml.pipelines.builder import PipelineBuilder
 
 task = 'train'
-path_sample = 'resources/datasets/imgimg_black'
+path_sample = 'tests/resources/datasets/imgimg_black'
 
-pipeline_tasks = 'resources/pipelines/pipeline_image_input_and_label.json'
+pipeline_tasks = 'tests/resources/pipelines/pipeline_image_input_and_label.json'
 inputs_pipeline, labels_pipeline = PipelineBuilder.build(pipeline_tasks=pipeline_tasks)
 
 config_default: ImgImgIndexerConfig = ImgImgIndexerConfig(

@@ -13,11 +13,7 @@ from standardml.runtime.executor import TrainExecutor, FitData
 from standardml.runtime.parse import InputConfig
 
 
-import os
-
-print(os.getcwd())
-
-config_dict_1 = json.load(open('resources/input_config_reg_sklearn_train.json'))
+config_dict_1 = json.load(open('tests/resources/input_config_reg_sklearn_train.json'))
 
 
 def test_parse_1():

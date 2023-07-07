@@ -2,7 +2,7 @@ from standardml.pipelines.builder import PipelineBuilder
 
 
 def test_pipeline_basic():
-    pipeline_tasks = 'resources/pipelines/pipeline_basic.json'
+    pipeline_tasks = 'tests/resources/pipelines/pipeline_basic.json'
     pipeline = PipelineBuilder.build(pipeline_tasks=pipeline_tasks)
     result = pipeline.execute(0)
 
@@ -10,8 +10,8 @@ def test_pipeline_basic():
 
 
 def test_pipeline_image():
-    image = 'resources/datasets/imgimg_black/image.png'
-    pipeline_tasks = 'resources/pipelines/pipeline_image_input_and_label.json'
+    image = 'tests/resources/datasets/imgimg_black/image.png'
+    pipeline_tasks = 'tests/resources/pipelines/pipeline_image_input_and_label.json'
     pipeline_input, pipeline_label = PipelineBuilder.build(pipeline_tasks=pipeline_tasks)
 
     result_input = pipeline_input.execute(image)

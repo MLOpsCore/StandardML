@@ -2,8 +2,8 @@ from standardml.datasets.index import IndexedData, Indexer
 from standardml.datasets.index.factory import IndexerFactory, IndexerType
 from standardml.datasets.index.indexers import ImgImgIndexerConfig
 
-DATASET_PATH_DEFAULT = 'resources/datasets/imgimg/default'
-DATASET_PATH_VOC = 'resources/datasets/imgimg/voc'
+DATASET_PATH_DEFAULT = 'tests/resources/datasets/imgimg/default'
+DATASET_PATH_VOC = 'tests/resources/datasets/imgimg/voc'
 
 DATASET_INPUT = 'input'
 DATASET_LABELS = 'labels'

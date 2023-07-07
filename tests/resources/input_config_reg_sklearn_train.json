@@ -37,7 +37,7 @@
           "type": "tabtab",
           "config": {
               "type": "npz",
-              "path_input": "resources/datasets/regression/diabetes.npz",
+              "path_input": "tests/resources/datasets/regression/diabetes.npz",
               "name_feat": "X",
               "name_labels": "y",
               "rnd_seed": 42,

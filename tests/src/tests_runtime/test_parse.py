@@ -9,7 +9,7 @@ from standardml.pipelines.builder import PipelineBuilder
 from standardml.runtime.executor import Executor, ExecutorTask, TrainExecutor, FitData
 from standardml.runtime.parse import InputConfig
 
-config_dict_1 = json.load(open('resources/input_config_semseg_train.json'))
+config_dict_1 = json.load(open('tests/resources/input_config_semseg_train.json'))
 
 
 def test_parse_1():

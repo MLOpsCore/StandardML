@@ -37,8 +37,8 @@
       "type": "imgimg",
       "config": {
         "type": "default",
-        "path_inputs": "resources/datasets/imgimg/default/input",
-        "path_labels": "resources/datasets/imgimg/default/labels",
+        "path_inputs": "tests/resources/datasets/imgimg/default/input",
+        "path_labels": "tests/resources/datasets/imgimg/default/labels",
         "rnd_seed": 42,
         "task": "train",
         "val_split": 0.2,
