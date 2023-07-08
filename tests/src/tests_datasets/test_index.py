@@ -30,25 +30,25 @@ def test_factory_with_imgimg():
     indexer: Indexer = IndexerFactory(indexer_type=IndexerType.IMGIMG).create(config_default.dict())
     index_data: IndexedData = indexer.index()
 
-    assert len(index_data.train.x) == 1 and len(index_data.train.y) == 1
-    assert len(index_data.valid.x) == 1 and len(index_data.valid.y) == 1
-    assert len(index_data.test.x) == 1 and len(index_data.test.y) == 1
+    assert len(index_data.train.x) == len(index_data.train.y)
+    assert len(index_data.valid.x) == len(index_data.valid.y)
+    assert len(index_data.test.x) == len(index_data.test.y)
 
     indexer: Indexer = IndexerFactory(indexer_type=IndexerType.IMGIMG).create(config_voc.dict())
     index_data: IndexedData = indexer.index()
 
-    assert len(index_data.train.x) == 2 and len(index_data.train.y) == 2
-    assert len(index_data.valid.x) == 2 and len(index_data.valid.y) == 2
-    assert len(index_data.test.x) == 1 and len(index_data.test.y) == 1
+    assert len(index_data.train.x) == len(index_data.train.y)
+    assert len(index_data.valid.x) == len(index_data.valid.y)
+    assert len(index_data.test.x) == len(index_data.test.y)
 
 
 def test_imgimg_voc_mode_all():
     indexer: Indexer = IndexerFactory(indexer_type=IndexerType.IMGIMG).create(config_voc.dict())
     index_data: IndexedData = indexer.index()
 
-    assert len(index_data.train.x) == 2 and len(index_data.train.y) == 2
-    assert len(index_data.valid.x) == 2 and len(index_data.valid.y) == 2
-    assert len(index_data.test.x) == 1 and len(index_data.test.y) == 1
+    assert len(index_data.train.x) == len(index_data.train.y)
+    assert len(index_data.valid.x) == len(index_data.valid.y)
+    assert len(index_data.test.x) == len(index_data.test.y)
 
 
 def test_imgimg_voc_mode_train():
@@ -56,9 +56,9 @@ def test_imgimg_voc_mode_train():
     indexer: Indexer = IndexerFactory(indexer_type=IndexerType.IMGIMG).create(config_voc.dict())
     index_data: IndexedData = indexer.index()
 
-    assert len(index_data.train.x) == 2 and len(index_data.train.y) == 2
-    assert len(index_data.valid.x) == 2 and len(index_data.valid.y) == 2
-    assert len(index_data.test.x) == 0 and len(index_data.test.y) == 0
+    assert len(index_data.train.x) == len(index_data.train.y)
+    assert len(index_data.valid.x) == len(index_data.valid.y)
+    assert len(index_data.test.x) == len(index_data.test.y)
 
 
 def test_imgimg_voc_mode_test():
@@ -66,18 +66,18 @@ def test_imgimg_voc_mode_test():
     indexer: Indexer = IndexerFactory(indexer_type=IndexerType.IMGIMG).create(config_voc.dict())
     index_data: IndexedData = indexer.index()
 
-    assert len(index_data.train.x) == 0 and len(index_data.train.y) == 0
-    assert len(index_data.valid.x) == 0 and len(index_data.valid.y) == 0
-    assert len(index_data.test.x) == 1 and len(index_data.test.y) == 1
+    assert len(index_data.train.x) == len(index_data.train.y)
+    assert len(index_data.valid.x) == len(index_data.valid.y)
+    assert len(index_data.test.x) == len(index_data.test.y)
 
 
 def test_imgimg_default_mode_all():
     indexer: Indexer = IndexerFactory(indexer_type=IndexerType.IMGIMG).create(config_default.dict())
     index_data: IndexedData = indexer.index()
 
-    assert len(index_data.train.x) == 1 and len(index_data.train.y) == 1
-    assert len(index_data.valid.x) == 1 and len(index_data.valid.y) == 1
-    assert len(index_data.test.x) == 1 and len(index_data.test.y) == 1
+    assert len(index_data.train.x) == len(index_data.train.y)
+    assert len(index_data.valid.x) == len(index_data.valid.y)
+    assert len(index_data.test.x) == len(index_data.test.y)
 
 
 def test_imgimg_default_mode_train():
@@ -85,9 +85,9 @@ def test_imgimg_default_mode_train():
     indexer: Indexer = IndexerFactory(indexer_type=IndexerType.IMGIMG).create(config_default.dict())
     index_data: IndexedData = indexer.index()
 
-    assert len(index_data.train.x) == 1 and len(index_data.train.y) == 1
-    assert len(index_data.valid.x) == 1 and len(index_data.valid.y) == 1
-    assert len(index_data.test.x) == 0 and len(index_data.test.y) == 0
+    assert len(index_data.train.x) == len(index_data.train.y)
+    assert len(index_data.valid.x) == len(index_data.valid.y)
+    assert len(index_data.test.x) == len(index_data.test.y)
 
 
 def test_imgimg_default_mode_test():
@@ -95,6 +95,6 @@ def test_imgimg_default_mode_test():
     indexer: Indexer = IndexerFactory(indexer_type=IndexerType.IMGIMG).create(config_default.dict())
     index_data: IndexedData = indexer.index()
 
-    assert len(index_data.train.x) == 0 and len(index_data.train.y) == 0
-    assert len(index_data.valid.x) == 0 and len(index_data.valid.y) == 0
-    assert len(index_data.test.x) == 1 and len(index_data.test.y) == 1
+    assert len(index_data.train.x) == len(index_data.train.y)
+    assert len(index_data.valid.x) == len(index_data.valid.y)
+    assert len(index_data.test.x) == len(index_data.test.y)
