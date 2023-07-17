@@ -1,0 +1,21 @@
+.venv
+.github
+.gitignore
+
+# Documentation
+docs/
+
+# Testing
+tests/
+htmlcov/
+.pytest_cache
+.coverage
+tox.ini
+coverage.xml
+
+# Cache
+*egg-info/
+*__pycache__*
+
+# Docker
+dockerfiles/tensforflow.dockerfile

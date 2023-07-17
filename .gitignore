@@ -1,5 +1,5 @@
 *__pycache__*
-*stdml.egg-info*
+*.egg-info*
 .pytest_cache
 *.egg
 *.egg-info
